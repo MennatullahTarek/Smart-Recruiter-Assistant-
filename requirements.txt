@@ -1,0 +1,15 @@
+streamlit
+langchain
+langchain-core
+langchain-community
+langchain-chroma
+chromadb
+google-generativeai
+pymupdf
+python-docx
+docx2txt
+sentence-transformers
+numpy
+scikit-learn
+tqdm
+
