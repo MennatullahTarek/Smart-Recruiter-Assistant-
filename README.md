@@ -3,7 +3,6 @@
 An intelligent, multi-agent AI assistant that helps recruiters extract insights from CVs, match candidates to job descriptions, summarize profiles, and recommend job roles — all powered by Retrieval-Augmented Generation (RAG), vector search, and Gemini AI.
 
 👉 **Live App**: [Try it on Streamlit](https://e27t3zbdcqlgfd3ktkehx4.streamlit.app/)  
-📁 **GitHub Repo**: [Smart-Recruiter-Assistant](https://github.com/MennatullahTarek/Smart-Recruiter-Assistant-)
 
 ---
 
