@@ -31,7 +31,7 @@ def embed_chunked_cvs(cv_texts: list, filenames: list, persist=True):
 
     if os.path.exists(VECTOR_STORE_PATH):
         print("Loading existing vectorstore...")
-        vectorstore = Chroma(persist_directory=VECTOR_STORE_PATH, embedding_function=embedding_model)
+        vectorstore = Chroma(collection_name="cv_store", embedding_function=embedding_model)
         vectorstore.add_documents(all_docs)
     else:
         print("Creating new vectorstore...")
