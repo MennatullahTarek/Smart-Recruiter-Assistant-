@@ -1,17 +1,13 @@
+""" Chatbot Q&A with Gemini + Chroma (Streamlit-safe) """
 
-
-
-""" Chatbot Q&A """
-
-import os
 import google.generativeai as genai
 from langchain.vectorstores import Chroma
 from langchain.embeddings import HuggingFaceEmbeddings
 
+# 🔐 Configure Gemini API Key
+genai.configure(api_key="YOUR_GEMINI_API_KEY")  # Replace with your own
 
-genai.configure(api_key="AIzaSyCYb5X4_DumVFHWAx3r0fMIBi6rzdG2NZ0")
-
-
+# 🧠 Prompt template for Q&A
 PROMPT_TEMPLATE = """
 You are an AI assistant helping recruiters identify qualified candidates.
 
@@ -28,13 +24,12 @@ Only use the provided context. If no answer is found, respond with "No one found
 Answer:
 """
 
-
-def load_vectorstore(path="./chroma_store"):
+# ✅ Load in-memory Chroma vectorstore
+def load_vectorstore():
     embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
-    vectorstore = Chroma(collection_name="cv_store", embedding_function=embedding_model)
-    return vectorstore
+    return Chroma(collection_name="cv_store", embedding_function=embedding_model)
 
-
+# 💬 Ask natural language question against vector DB
 def ask_question(question: str, k: int = 3) -> str:
     vectorstore = load_vectorstore()
     retriever = vectorstore.as_retriever(search_kwargs={"k": k})
@@ -44,7 +39,9 @@ def ask_question(question: str, k: int = 3) -> str:
 
     prompt = PROMPT_TEMPLATE.format(context=context, question=question)
 
-    model = genai.GenerativeModel("models/gemini-1.5-flash")
-    response = model.generate_content(prompt)
-
-    return response.text.strip()
+    try:
+        model = genai.GenerativeModel("models/gemini-1.5-flash")
+        response = model.generate_content(prompt)
+        return response.text.strip()
+    except Exception as e:
+        return f"⚠️ Gemini Error: {e}"
