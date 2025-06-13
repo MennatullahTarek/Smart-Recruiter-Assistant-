@@ -1,7 +1,4 @@
-
-
 """Match a job description to top K CVs"""
-
 
 from collections import defaultdict
 from langchain.embeddings import HuggingFaceEmbeddings
@@ -9,7 +6,7 @@ from langchain.vectorstores import Chroma
 import re
 import google.generativeai as genai
 
-
+# Keyword extractor: removes common stopwords
 def extract_keywords(text):
     text = text.lower()
     stopwords = {
@@ -20,7 +17,7 @@ def extract_keywords(text):
     keywords = re.findall(r'\b[a-zA-Z]{3,}\b', text)
     return set(kw for kw in keywords if kw not in stopwords)
 
-
+# Gemini-based reasoning explanation for match
 def explain_with_llm(question: str, snippet: str):
     prompt = f"""
 You are helping a recruiter evaluate candidate CVs.
@@ -40,12 +37,12 @@ Based on this, explain whether this candidate is relevant to the question. Answe
     except Exception as e:
         return f"⚠️ LLM Error: {e}"
 
-
-def load_vectorstore(path="./chroma_store"):
+# Load in-memory Chroma vector store
+def load_vectorstore():
     embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
     return Chroma(collection_name="cv_store", embedding_function=embedding_model)
 
-
+# Main function: job description to CV match
 def match_job_to_cvs(job_description: str, top_k: int = 5, explain=True):
     vectorstore = load_vectorstore()
     results = vectorstore.similarity_search_with_score(job_description, k=top_k)
@@ -53,7 +50,7 @@ def match_job_to_cvs(job_description: str, top_k: int = 5, explain=True):
     jd_keywords = extract_keywords(job_description)
     grouped_chunks = defaultdict(list)
 
-
+    # Group by candidate file name
     for doc, score in results:
         name = doc.metadata.get("name", "Unknown")
         grouped_chunks[name].append((doc.page_content, score))
@@ -61,7 +58,6 @@ def match_job_to_cvs(job_description: str, top_k: int = 5, explain=True):
     print(f"\n🔍 Job Match — Top {top_k} Chunks Grouped by Candidate:\n")
     for i, (candidate, chunks) in enumerate(grouped_chunks.items(), 1):
         print(f"{i}. 📄 Candidate: {candidate}")
-
 
         combined_text = " ".join([chunk for chunk, _ in chunks]).lower()
         matched_keywords = sorted([kw for kw in jd_keywords if kw in combined_text])
@@ -72,7 +68,6 @@ def match_job_to_cvs(job_description: str, top_k: int = 5, explain=True):
 
         explanation = ", ".join(matched_keywords)
         print(f"   💡 Matched terms: {explanation}")
-
 
         matching_snippets = []
         header_keywords = ["@gmail", "linkedin", "github", "phone", "email", "010", "cv", "profile"]
@@ -85,6 +80,7 @@ def match_job_to_cvs(job_description: str, top_k: int = 5, explain=True):
                 penalty = 1 if is_header_like or is_first_chunk else 0
                 matching_snippets.append((chunk, score, penalty))
 
+        # Sort by (penalty, score)
         if matching_snippets:
             snippet = sorted(matching_snippets, key=lambda x: (x[2], x[1]))[0][0]
         else:
@@ -92,6 +88,6 @@ def match_job_to_cvs(job_description: str, top_k: int = 5, explain=True):
 
         print(f"       📄 Snippet: {snippet.strip().replace(chr(10), ' ')[:200]}...")
 
-
-        llm_reason = explain_with_llm(job_description, snippet)
-        print(f"   🤖 LLM Reasoning: {llm_reason}\n")
+        if explain:
+            llm_reason = explain_with_llm(job_description, snippet)
+            print(f"   🤖 LLM Reasoning: {llm_reason}\n")
