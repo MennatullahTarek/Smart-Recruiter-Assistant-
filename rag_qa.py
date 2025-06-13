@@ -5,7 +5,7 @@ from langchain.vectorstores import Chroma
 from langchain.embeddings import HuggingFaceEmbeddings
 
 # 🔐 Configure Gemini API Key
-genai.configure(api_key="YOUR_GEMINI_API_KEY")  # Replace with your own
+genai.configure(api_key="AIzaSyBSS6k7_SaSM44aNmUFvjKzeys7y7qWzjM") 
 
 # 🧠 Prompt template for Q&A
 PROMPT_TEMPLATE = """
