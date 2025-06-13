@@ -1,10 +1,14 @@
+
 __import__('pysqlite3')
 import sys
+import os
+
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 import streamlit as st
-import os
 from collections import defaultdict
+
 from app.parser import extract_text
 from app.embedder import embed_chunked_cvs
 from app.rag_qa import ask_question
@@ -50,7 +54,7 @@ if st.button("🔍 Upload and Analyze"):
         cv_paths = []
         texts = []
         for file in uploaded_files:
-            file_path = os.path.join("uploaded_" + file.name.replace(" ", "_"))
+            file_path = os.path.join("uploaded_files", "uploaded_" + file.name.replace(" ", "_"))
             with open(file_path, "wb") as f:
                 f.write(file.getbuffer())
             cv_paths.append(file_path)
