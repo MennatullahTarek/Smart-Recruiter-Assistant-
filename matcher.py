@@ -43,7 +43,7 @@ Based on this, explain whether this candidate is relevant to the question. Answe
 
 def load_vectorstore(path="./chroma_store"):
     embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
-    return Chroma(persist_directory=path, embedding_function=embedding_model)
+    return Chroma(collection_name="cv_store", embedding_function=embedding_model)
 
 
 def match_job_to_cvs(job_description: str, top_k: int = 5, explain=True):
