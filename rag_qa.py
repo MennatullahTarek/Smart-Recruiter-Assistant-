@@ -31,7 +31,7 @@ Answer:
 
 def load_vectorstore(path="./chroma_store"):
     embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
-    vectorstore = Chroma(persist_directory=path, embedding_function=embedding_model)
+    vectorstore = Chroma(collection_name="cv_store", embedding_function=embedding_model)
     return vectorstore
 
 
