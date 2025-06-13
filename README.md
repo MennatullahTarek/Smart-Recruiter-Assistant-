@@ -1,102 +1,86 @@
-# 📄 Smart Recruiter Assistant – A RAG-based CV Query and Job Matching System
+# 🤖 Smart Recruiter Assistant
 
-> 🔍 An AI-powered recruitment assistant that helps recruiters **search**, **summarize**, and **match candidates** to jobs using **Retrieval-Augmented Generation (RAG)** and **Large Language Models (LLMs)**.
+An intelligent, multi-agent AI assistant that helps recruiters extract insights from CVs, match candidates to job descriptions, summarize profiles, and recommend job roles — all powered by Retrieval-Augmented Generation (RAG), vector search, and Gemini AI.
 
-## 🚀 Overview
+👉 **Live App**: [Try it on Streamlit](https://e27t3zbdcqlgfd3ktkehx4.streamlit.app/)  
+📁 **GitHub Repo**: [Smart-Recruiter-Assistant](https://github.com/MennatullahTarek/Smart-Recruiter-Assistant-)
 
-The Smart Recruiter Assistant is a multi-functional AI system that enables recruiters to:
-- 🧠 Ask **natural language questions** like “Who has experience in time series?”
-- 📌 Match **job descriptions** to the most suitable candidates
-- 📊 Recommend **open roles** to candidates based on their profiles
-- 📝 Summarize each CV into a short, professional overview
+---
 
-Built with:
-- ✅ **LangChain** (for vector search + chunking)
-- ✅ **ChromaDB** (for storing CV embeddings)
-- ✅ **Gemini 1.5 Flash** (for LLM reasoning & summaries)
-- ✅ **HuggingFace MiniLM** (for lightweight embeddings)
+## 🚀 Features
 
-## 💡 Core Features
+✅ Upload multiple CVs (PDF/DOCX)  
+✅ Ask natural language questions (e.g., “Who has experience in NLP?”)  
+✅ Match candidates to job descriptions  
+✅ Generate 3–4 line CV summaries  
+✅ Recommend jobs to each candidate  
+✅ Gemini-powered LLM reasoning for explainability
 
-### 🔎 1. CV Q&A Chatbot (RAG)
-Ask recruiter-style questions like:
-> “Who graduated from Cairo University?”  
-> “Who has experience with Generative AI?”
+---
 
-✅ Uses Chroma vector store to retrieve relevant snippets  
-✅ Gemini generates contextual, human-like responses
-
-### 🎯 2. Job Description Matching
-Input: A job description  
-Output: Top K ranked candidates
-
-✅ Ranks based on:
-- Skill match  
-- Experience level  
-- Education relevance  
-
-✅ Gemini explains *why* each candidate is a fit
-
-### 📄 3. Candidate Summarizer
-Automatically generates a 3–4 line summary per CV including:
-- Key skills
-- Recent roles or projects
-- Education
-- Years of experience (if available)
-
-### 📌 4. Job Recommendations for Candidates
-Input: CV  
-Output: Top 3 job matches (from a list of 20+ descriptions)
-
-✅ Uses semantic similarity + Gemini explanations  
-✅ Helps job seekers find suitable roles
-
-## 📁 Folder Structure
+## 📂 Project Structure
 
 ```
-📦 smart-recruiter/
-├── main.py                  # Entry point: handles full pipeline
-├── parser.py                # Extracts text from PDF/DOCX
-├── embedder.py              # Embeds CVs into ChromaDB
-├── rag_qa.py                # RAG-based CV Q&A
-├── matcher.py               # Job description to candidate matching
-├── summarizer.py            # CV summarization using Gemini
-├── job_recommender.py       # Recommends jobs for candidates
-├── chroma_store/            # Persistent vector store (auto-generated)
+Smart-Recruiter-Assistant/
+├── app/                    # Backend logic
+│   ├── __init__.py
+│   ├── config.py           # Central constants (models, paths)
+│   ├── parser.py           # Extract text from PDF/DOCX
+│   ├── embedder.py         # Embed CVs to vectorstore
+│   ├── matcher.py          # Job → candidate matching
+│   ├── rag_qa.py           # RAG-based Q&A with Gemini
+│   ├── summarizer.py       # CV summary generator
+│   ├── job_recommender.py  # Candidate → job recommendations
+├── ui/
+│   └── streamlit_app.py    # Streamlit frontend
+├── uploaded_files/         # CVs uploaded during runtime
+├── chroma_store/           # (optional) persisted vector DB
+├── tests/                  # Unit tests (optional)
+├── requirements.txt
+├── README.md
+└── .gitignore
 ```
 
-## 🧪 Example Usage
+---
+
+## 🛠 Installation
+
+1. **Clone the repository**:
 
 ```bash
-python main.py
+git clone https://github.com/MennatullahTarek/Smart-Recruiter-Assistant-.git
+cd Smart-Recruiter-Assistant-
 ```
 
-It will:
-1. Load and embed CVs
-2. Answer a recruiter query
-3. Match candidates to a job description
-4. Summarize each candidate
-5. Recommend jobs to each candidate
-
-## 🔧 Dependencies
-
-Install with:
+2. **Install dependencies**:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-> Make sure you have access to Gemini API (`google.generativeai`) and HuggingFace models.
+3. **Run the app locally**:
 
-## 📌 Tech Stack
+```bash
+streamlit run ui/streamlit_app.py
+```
 
-| Component | Tool |
-|----------|------|
-| Text Parsing | PyMuPDF, docx2txt |
-| Embeddings | HuggingFace `MiniLM-L6` |
-| Vector Store | ChromaDB |
-| LLM | Gemini 1.5 Flash |
-| RAG Framework | LangChain |
-| Similarity | FAISS / cosine |
-| Explanation | Gemini reasoning prompts |
+> 📌 Recommended: Use Python ≤ 3.11  
+> ⚠️ Python 3.13+ may break due to sqlite or PyTorch issues.
 
+---
+
+## 💡 Built With
+
+- [LangChain](https://python.langchain.com/)
+- [ChromaDB](https://docs.trychroma.com/)
+- [HuggingFace Transformers](https://huggingface.co/)
+- [Google Gemini API](https://makersuite.google.com/)
+- [Streamlit](https://streamlit.io/)
+
+
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License — feel free to fork, modify, and build your own version!
