@@ -5,12 +5,12 @@ sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 import streamlit as st
 import os
 from collections import defaultdict
-from parser import extract_text
-from embedder import embed_chunked_cvs
-from rag_qa import ask_question
-from matcher import match_job_to_cvs, load_vectorstore, explain_with_llm, extract_keywords
-from summarizer import summarize_cv
-from job_recommender import recommend_jobs_for_candidate
+from app.parser import extract_text
+from app.embedder import embed_chunked_cvs
+from app.rag_qa import ask_question
+from app.matcher import match_job_to_cvs, load_vectorstore, explain_with_llm, extract_keywords
+from app.summarizer import summarize_cv
+from app.job_recommender import recommend_jobs_for_candidate
 
 st.set_page_config(page_title="Smart Recruiter Assistant", layout="wide")
 st.title("🤖 Smart Recruiter Assistant")
