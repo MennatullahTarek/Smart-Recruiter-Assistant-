@@ -12,4 +12,4 @@ sentence-transformers
 numpy
 scikit-learn
 tqdm
-
+pysqlite3-binary
