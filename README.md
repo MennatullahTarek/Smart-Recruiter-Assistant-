@@ -31,10 +31,8 @@ Smart-Recruiter-Assistant/
 │   ├── summarizer.py       # CV summary generator
 │   ├── job_recommender.py  # Candidate → job recommendations
 ├── ui/
-│   └── streamlit_app.py    # Streamlit frontend
+│   └── main.py    # Streamlit frontend
 ├── uploaded_files/         # CVs uploaded during runtime
-├── chroma_store/           # (optional) persisted vector DB
-├── tests/                  # Unit tests (optional)
 ├── requirements.txt
 ├── README.md
 └── .gitignore
@@ -60,7 +58,7 @@ pip install -r requirements.txt
 3. **Run the app locally**:
 
 ```bash
-streamlit run ui/streamlit_app.py
+streamlit run ui/main.py
 ```
 
 > 📌 Recommended: Use Python ≤ 3.11  
