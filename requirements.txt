@@ -3,7 +3,7 @@ langchain
 langchain-core
 langchain-community
 langchain-chroma
-chromadb
+chromadb==0.4.14  
 google-generativeai
 pymupdf
 python-docx
@@ -12,4 +12,3 @@ sentence-transformers
 numpy
 scikit-learn
 tqdm
-torch==2.0.1
